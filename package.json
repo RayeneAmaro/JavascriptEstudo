@@ -1,0 +1,16 @@
+{
+  "name": "js-1",
+  "version": "1.0.0",
+  "description": "Aprendendo javascript, a melhor linguagem do mundo",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon buscaHP.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Rayene Alves",
+  "license": "ISC",
+  "dependencies": {
+    "inquirer": "^13.3.2",
+    "nodemon": "^3.1.14"
+  }
+}
