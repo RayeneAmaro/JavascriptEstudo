@@ -1,10 +1,10 @@
 {
   "name": "js-1",
   "version": "1.0.0",
-  "description": "Aprendendo javascript, a melhor linguagem do mundo",
+  "description": "Aprendendo javascript",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon buscaHP.js",
+    "start": "nodemon buscaCEP.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Rayene Alves",
