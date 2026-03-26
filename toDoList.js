@@ -104,7 +104,7 @@ async function concluirTarefa() {
 
     if(tarefaEncontrada) {
       tarefaEncontrada.concluida = true;
-      listarTarefa();
+      await listarTarefa();
     } else {
       console.log(`Tarefa ${tarefaId} não encontrada, verifique suas tarefas abaixo.`);
       await listarTarefa();
