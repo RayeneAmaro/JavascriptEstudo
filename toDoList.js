@@ -1,9 +1,9 @@
 import { rawlist, input } from '@inquirer/prompts'
 
 let tarefas = [];
+let sequencial = 1;
 
 async function opcoes() {
-
   const lista = await rawlist(
     {
       message: "Escolha uma opção abaixo",
@@ -37,83 +37,112 @@ async function opcoes() {
 }
 
 async function adicionarTarefa() {
-    const tarefa = await input({ message: 'Insira a tarefa: ', required: true });
-    
-    const novaTarefa = {
-        id: tarefas.length + 1,
-        tarefa: tarefa,
-        concluida: false
-    }
+  const tarefa = await input({message: 'Insira a nova tarefa: ', required: true});
 
-    tarefas.push(novaTarefa);
-    console.log('Tarefa adicionada com sucesso!');
+  const novaTarefa = {
+    id: sequencial++,
+    nome: tarefa,
+    concluida: false
+  }
+
+  tarefas.push(novaTarefa);
+
+  console.log(`Tarefa "${tarefa}" adicionada com sucesso!`);
 }
 
-async function listarTarefas() {
-
-    if(tarefas.length === 0){
-        console.log("Nenhuma tarefa encontrada!");
-    } else {
-        tarefas.forEach((tarefa, index) => {
-      const icone = tarefa.concluida ? '✅' : '❌';
-      
-      console.log(`${icone} ${index + 1} - ${tarefa.tarefa}`);
+async function listarTarefa() {
+  if(tarefas.length === 0){
+    console.log('Nenhuma tarefa encontrada.');
+  } else {
+    tarefas.forEach(function(tarefa) {
+      console.log(`${tarefa.concluida ? '[x]' : '[ ]'} ${tarefa.id} - ${tarefa.nome}`);
     });
+  }
+};
+
+async function removerTarefa() {
+  if(tarefas.length === 0) {
+    console.log('Nenhuma tarefa encontrada.');
+  } else {
+      listarTarefa()
+      
+      const tarefa = await input({message: 'Insira o id da tarefa para remover: ', required: true});
+      const tarefaId = Number(tarefa);
+
+      const tarefaEncontrada = tarefas.find(function(tarefa){
+        return tarefa.id === tarefaId;
+      });
+
+      if(tarefaEncontrada) {
+        const tarefaRemovida = tarefas.filter(function(tarefaID){
+          return tarefaID.id !== tarefaId;
+        })
+
+        tarefas = tarefaRemovida;
+
+        console.log(`Tarefa com id ${tarefaId} - ${tarefaEncontrada.nome} removida com sucesso!`);
+        listarTarefa();
+      } else {
+        console.log(`Tarefa ${tarefaId} não encontrada, verifique suas tarefas abaixo.`);
+        await listarTarefa();
+      }
+  } 
+}
+
+async function concluirTarefa() {
+  if(tarefas.length === 0){
+    console.log('Nenhuma tarefa encontrada.');
+  } else {
+    listarTarefa();
+
+    const tarefa = await input({message: 'Insira o id da tarefa concluida: ', required: true});
+    const tarefaId = Number(tarefa)
     
-    console.log("======================\n");
+    const tarefaEncontrada = tarefas.find(function(tarefa){
+        return tarefa.id === tarefaId;
+    })
+
+    if(tarefaEncontrada) {
+      tarefaEncontrada.concluida = true;
+      listarTarefa();
+    } else {
+      console.log(`Tarefa ${tarefaId} não encontrada, verifique suas tarefas abaixo.`);
+      await listarTarefa();
+    }
   }
 }
 
-async function removerTarefa(){
-  if(tarefas.length === 0){
-    console.log("Nenhuma tarefa encontrada!");
-  } else {
-    await listarTarefas();
-    const tarefa = await input({message: 'Insira o ID da tarefa que será removida: ', required: true});
-    const tarefaRemovida = Number(tarefa) - 1;
-    tarefas.splice(tarefaRemovida, 1)
-    console.log('Tarefa removida com sucesso!');
-  }
-}
-
-async function concluirTarefa(){
-  if(tarefas.length === 0){
-    console.log("Nenhuma tarefa encontrada!");
-  } else {
-    await listarTarefas();
-    const tarefa = await input({message: 'Insira o ID da tarefa que será concluída: ', required: true})
-    tarefas[tarefa-1].concluida = true;
-    console.log('Tarefa concluída com sucesso!');
-  }
-}
 
 let resposta;
-
 
 do {
   resposta = await opcoes();
 
   switch(resposta){
     case 'adicionar':
-        await adicionarTarefa();
-
-        break;
-
-    case 'listar':
-        await listarTarefas();
-        break;
+      await adicionarTarefa(); 
+      break;
     
+    case 'listar':
+      await listarTarefa();
+      break;
+
     case 'remover':
-        await removerTarefa();
-        break;
+      await removerTarefa();
+      break;
 
     case 'concluir':
-        await concluirTarefa();
-        break;
-
-      default:
-        console.log('');
+      await concluirTarefa();
+      break;
+    
+    case 'sair':
+      console.log('');
+      break;
+    
+    default:
+      console.log('Opção inválida');
+    
     
   }
 
-} while (resposta !== 'sair');
+} while (resposta !== 'sair')
