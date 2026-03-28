@@ -1,7 +1,9 @@
 import { rawlist, input } from '@inquirer/prompts'
 
+
 let tarefas = [];
-let sequencial = 1;
+let sequencial= 1;
+
 
 async function opcoes() {
   const lista = await rawlist(
@@ -102,6 +104,7 @@ async function concluirTarefa() {
         return tarefa.id === tarefaId;
     })
 
+    
     if(tarefaEncontrada) {
       tarefaEncontrada.concluida = true;
       await listarTarefa();

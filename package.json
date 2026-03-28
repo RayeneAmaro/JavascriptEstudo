@@ -1,16 +1,17 @@
 {
   "name": "js-1",
   "version": "1.0.0",
+  "type": "module",
   "description": "Aprendendo javascript",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
-    "start": "nodemon buscaCEP.js",
+    "start": "tsx --watch buscaCEP.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Rayene Alves",
   "license": "ISC",
   "dependencies": {
     "inquirer": "^13.3.2",
-    "nodemon": "^3.1.14"
+    "typescript": "^6.0.2"
   }
 }
