@@ -137,12 +137,12 @@ async function buscarFilme(){
 
     const filmeEncontrado = filmes.filter(filme => filme.titulo.toLowerCase().includes(busca.toLowerCase()));
 
-    if(filmeEncontrado){
+    if(filmeEncontrado.length > 0){
         filmeEncontrado.forEach(filme => {
         console.log(`Filme: ${filme.id} - ${filme.titulo} | Gênero: ${filme.genero} | Ano: ${filme.ano}`);
         })
     } else {
-        console.log(`Filme ${busca} não encontrado`);
+        console.log(`Filme '${busca}' não encontrado`);
     }
 }
 
@@ -159,7 +159,7 @@ async function filtrarPorGenero(){
             console.log(`${filmes.id} - ${filmes.titulo} - ${filmes.ano}.`);
         })
     } else {
-        console.log(`Nenhum filme do gênero ${generoBusca} encontrado`);
+        console.log(`Nenhum filme do gênero '${generoBusca}' encontrado`);
     }
 }
 
